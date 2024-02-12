@@ -68,14 +68,30 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<Person> findByName(String firstName, String lastName) {
-        if (firstName.isEmpty() && !lastName.isEmpty()) {
-            return personRepository.findByFirstName(lastName);
-        } else if (lastName.isEmpty() && !firstName.isEmpty()) {
-            return personRepository.findByLastName(firstName);
+        // Handle null or empty inputs for both names
+        if ((firstName == null || firstName.isEmpty()) &&
+                (lastName == null || lastName.isEmpty())) {
+            return Lists.newArrayList();
         }
-        return Lists.newArrayList();
-    }
 
+        // Search by both names if both are provided and not empty
+        if (firstName != null && !firstName.isEmpty() &&
+                lastName != null && !lastName.isEmpty()) {
+            return personRepository.findByFirstNameAndLastName(firstName, lastName);
+        }
+
+        // If only firstName is provided and not empty
+        if (firstName != null && !firstName.isEmpty()) {
+            return personRepository.findByFirstName(firstName);
+        }
+
+        // If only lastName is provided and not empty
+        if (lastName != null && !lastName.isEmpty()) {
+            return personRepository.findByLastName(lastName);
+        }
+
+        throw new IllegalStateException("findByName method reached an unexpected state.");
+    }
     /**
      * Creates a note for a specific person.
      * Purpose: To add a note to a person, identified by their ID.
