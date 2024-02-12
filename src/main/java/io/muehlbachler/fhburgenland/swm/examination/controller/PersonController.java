@@ -78,7 +78,8 @@ public class PersonController {
      * @return A list of persons that match the name criteria.
      */
     @GetMapping("/query")
-    public List<Person> query(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+    public List<Person> query(@RequestParam("firstName") String firstName,
+                              @RequestParam("lastName") String lastName) {
         return personService.findByName(firstName, lastName);
     }
 
