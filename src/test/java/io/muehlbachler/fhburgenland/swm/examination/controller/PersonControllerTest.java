@@ -1,9 +1,14 @@
 package io.muehlbachler.fhburgenland.swm.examination.controller;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -75,9 +80,9 @@ class PersonControllerTest {
         mockMvc.perform(post("/person/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"firstName\":\"Jane\",\"lastName\":\"Doe\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value("Jane"))
-                .andExpect(jsonPath("$.lastName").value("Doe"));
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.firstName").value("Jane"))
+                        .andExpect(jsonPath("$.lastName").value("Doe"));
 
         verify(personService).create(any(Person.class));
     }
@@ -154,7 +159,7 @@ class PersonControllerTest {
 
     @Test
     void createNoteForInvalidPerson() throws Exception {
-        when(personService.createNote(eq("invalid"), any(Note.class))).thenReturn(Optional.empty());
+        when(personService.createNote(eq("invalid"),any(Note.class))).thenReturn(Optional.empty());
 
         mockMvc.perform(post("/person/invalid/note")
                         .contentType(MediaType.APPLICATION_JSON)
