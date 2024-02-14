@@ -103,7 +103,7 @@ jobs:
 
 
   containerize:
-    needs: build # Ensure this job runs after the build job
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -119,11 +119,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract metadata for Docker
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/examination
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha
+            type=semver,pattern={{version}}
+
       - name: Build and Push Docker Image to GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/examination:latest
-
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
