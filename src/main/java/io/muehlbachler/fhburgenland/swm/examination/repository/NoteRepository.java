@@ -6,6 +6,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import io.muehlbachler.fhburgenland.swm.examination.model.Note;
 
+
+/**
+ * Manages database operations for notes.
+ * Provides methods for CRUD operations and custom queries.
+ * Ensures proper handling of database interactions.
+ */
+
 public interface NoteRepository extends CrudRepository<Note, String> {
 
     /**

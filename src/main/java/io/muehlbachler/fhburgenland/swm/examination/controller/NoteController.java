@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import io.muehlbachler.fhburgenland.swm.examination.model.Note;
 import io.muehlbachler.fhburgenland.swm.examination.service.NoteService;
 
+/**
+ * Manages endpoints related to notes.
+ * Retrieves specific notes and queries notes by content.
+ * Ensures proper handling of input and output.
+ * Avoids unexpected behavior due to invalid data.
+ * Provides a RESTful interface for note-related operations.
+ */
 
 @RestController
 @RequestMapping("note")
