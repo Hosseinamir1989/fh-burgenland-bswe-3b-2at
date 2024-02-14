@@ -32,6 +32,14 @@ import io.muehlbachler.fhburgenland.swm.examination.repository.PersonRepository;
 import io.muehlbachler.fhburgenland.swm.examination.service.NoteService;
 import io.muehlbachler.fhburgenland.swm.examination.service.PersonService;
 
+/**
+ * Tests for PersonServiceImpl, covering CRUD operations, note management, and searches. Utilizes
+ * Mockito for mocking repository and service layers to ensure functionality correctness without
+ * external dependencies. Methods test scenarios including successful entity retrieval, handling of
+ * non-existent entities, and entity creation, showcasing the use of JUnit and Mockito in service
+ * layer testing.
+ */
+
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceImplTest {
     @Mock
@@ -64,15 +72,14 @@ public class PersonServiceImplTest {
         assertEquals("John", person.get().getFirstName(),
                 "firstName should be John");
 
-        Mockito.verify(personRepository,
-                times(1)).findById("1");
+        Mockito.verify(personRepository,times(1)).findById("1");
     }
 
 
     @Test
     void testGetAll() {
-        when(personRepository.findAll()).thenReturn(Arrays.asList
-                (new Person("1", "John", "Doe", Collections.emptyList()),
+        when(personRepository.findAll()).thenReturn(Arrays.asList(new Person("1",
+                        "John", "Doe", Collections.emptyList()),
                 new Person("2", "Jane", "Doe", Collections.emptyList())));
 
         List<Person> persons = personService.getAll();
@@ -91,11 +98,12 @@ public class PersonServiceImplTest {
         assertFalse(person.isPresent());
         verify(personRepository).findById("nonexistent");
     }
+
     @Test
     void testFindByName() {
         when(personRepository.findByFirstNameAndLastName("John", "Doe"))
-                .thenReturn(Collections.singletonList
-                        (new Person("1", "John", "Doe", Collections.emptyList())));
+                .thenReturn(Collections.singletonList(new Person(
+                        "1", "John", "Doe", Collections.emptyList())));
 
         List<Person> persons = personService.findByName("John", "Doe");
 
@@ -104,12 +112,13 @@ public class PersonServiceImplTest {
         assertEquals("John", persons.get(0).getFirstName());
         verify(personRepository).findByFirstNameAndLastName("John", "Doe");
     }
+
     @Test
     void testCreatePerson() {
-        Person newPerson = new Person
-                (null, "New", "Person", Collections.emptyList());
-        Person savedPerson = new Person
-                ("1", "New", "Person", Collections.emptyList());
+        Person newPerson = new Person(null,
+                "New", "Person", Collections.emptyList());
+        Person savedPerson = new Person("1",
+                "New", "Person", Collections.emptyList());
         when(personRepository.save(any(Person.class))).thenReturn(savedPerson);
 
         Person result = personService.create(newPerson);
@@ -118,6 +127,7 @@ public class PersonServiceImplTest {
         assertEquals("New", result.getFirstName());
         verify(personRepository).save(newPerson);
     }
+
  @Test
     void findByName_withNullParameters() {
         List<Person> result = personService.findByName(null, null);
@@ -131,8 +141,8 @@ public class PersonServiceImplTest {
         String personId = "1";
         Note newNote = new Note();
         newNote.setContent("Test Note");
-        Person person = new Person
-                (personId, "John", "Doe", Collections.emptyList());
+        Person person = new Person(personId,
+                "John", "Doe", Collections.emptyList());
 
         when(personRepository.findById(anyString())).thenReturn(Optional.of(person));
         when(noteService.create(any(Note.class))).thenReturn(newNote);
@@ -158,18 +168,20 @@ public class PersonServiceImplTest {
         verify(personRepository).findById(personId);
         verify(noteService, never()).create(any(Note.class));
     }
+
     @Test
     void findByName_whenNoPersonsMatch() {
-        lenient().when(personRepository.findByFirstName
-                (anyString())).thenReturn(Lists.newArrayList());
-        lenient().when(personRepository.findByLastName
-                (anyString())).thenReturn(Lists.newArrayList());
-        lenient().when(personRepository.findByFirstNameAndLastName
-                (anyString(), anyString())).thenReturn(Lists.newArrayList());
-        when(personRepository.findByFirstNameAndLastName
-                (anyString(), anyString())).thenReturn(Lists.newArrayList());
+        lenient().when(personRepository.findByFirstName(anyString()))
+                .thenReturn(Lists.newArrayList());
+        lenient().when(personRepository.findByLastName(anyString()))
+                .thenReturn(Lists.newArrayList());
+        lenient().when(personRepository.findByFirstNameAndLastName(anyString(), anyString()))
+                .thenReturn(Lists.newArrayList());
+        when(personRepository.findByFirstNameAndLastName(anyString(), anyString()))
+                .thenReturn(Lists.newArrayList());
 
-        List<Person> result = personService.findByName("NonExistingFirstName", "NonExistingLastName");
+        List<Person> result = personService.findByName("NonExistingFirstName",
+                "NonExistingLastName");
 
         assertTrue(result.isEmpty(), "Expected no persons to be found with a non-matching name");
     }
