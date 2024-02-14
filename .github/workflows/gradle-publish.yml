@@ -16,6 +16,7 @@ on:
 jobs:
 
 
+
   checkstyle:
 
     runs-on: ubuntu-latest
@@ -38,6 +39,18 @@ jobs:
       - name: checkstyle with Gradle Wrapper
         run: ./gradlew checkstyleMain checkstyleTest
 
+  hadolint:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Hadolint
+        uses: docker://hadolint/hadolint:latest
+        with:
+          dockerfile: Dockerfile
 
 
   test:
@@ -88,3 +101,40 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
+
+  containerize:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/examination
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Build and Push Docker Image to GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
