@@ -15,6 +15,13 @@ import lombok.Setter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
+/**
+ * Represents a person entity.
+ * Encapsulates information about a person, including their name and associated notes.
+ * Ensures proper serialization and database mapping.
+ * Provides utility methods like toString for debugging.
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

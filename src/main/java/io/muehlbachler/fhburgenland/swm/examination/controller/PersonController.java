@@ -16,9 +16,17 @@ import io.muehlbachler.fhburgenland.swm.examination.model.Note;
 import io.muehlbachler.fhburgenland.swm.examination.model.Person;
 import io.muehlbachler.fhburgenland.swm.examination.service.PersonService;
 
+/**
+ * Manages endpoints related to persons.
+ * Performs CRUD operations on persons and their associated notes.
+ * Ensures proper validation and error handling.
+ * Provides a RESTful interface for person-related operations.
+ */
+
 @RestController
 @RequestMapping("person")
 public class PersonController {
+
     @Autowired
     private PersonService personService;
 

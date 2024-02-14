@@ -15,6 +15,14 @@ import lombok.Setter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
+
+/**
+ * Represents a note entity.
+ * Encapsulates information about a note, including its content and associated person.
+ * Ensures proper serialization and database mapping.
+ * Provides utility methods like toString for debugging.
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

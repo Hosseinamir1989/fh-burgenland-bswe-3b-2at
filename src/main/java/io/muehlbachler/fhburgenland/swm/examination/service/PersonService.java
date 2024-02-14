@@ -6,6 +6,12 @@ import java.util.Optional;
 import io.muehlbachler.fhburgenland.swm.examination.model.Note;
 import io.muehlbachler.fhburgenland.swm.examination.model.Person;
 
+/**
+ * Service interface for managing Person entities.
+ * Defines methods for CRUD operations and querying persons.
+ * Ensures abstraction and decoupling between the service layer and the data access layer.
+ */
+
 public interface PersonService {
 
     /**

@@ -16,6 +16,12 @@ import io.muehlbachler.fhburgenland.swm.examination.service.PersonService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * Service implementation for managing Person entities.
+ * Performs CRUD operations and queries related to persons.
+ * Ensures proper data access and manipulation.
+ */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Service
@@ -69,14 +75,14 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<Person> findByName(String firstName, String lastName) {
         // Handle null or empty inputs for both names
-        if ((firstName == null || firstName.isEmpty()) &&
-                (lastName == null || lastName.isEmpty())) {
+        if ((firstName == null || firstName.isEmpty())
+                && (lastName == null || lastName.isEmpty())) {
             return Lists.newArrayList();
         }
 
         // Search by both names if both are provided and not empty
-        if (firstName != null && !firstName.isEmpty() &&
-                lastName != null && !lastName.isEmpty()) {
+        if (firstName != null && !firstName.isEmpty()
+                && lastName != null && !lastName.isEmpty()) {
             return personRepository.findByFirstNameAndLastName(firstName, lastName);
         }
 

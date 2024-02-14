@@ -5,6 +5,12 @@ import java.util.Optional;
 
 import io.muehlbachler.fhburgenland.swm.examination.model.Note;
 
+/**
+ * Service interface for managing Note entities.
+ * Defines methods for CRUD operations and querying notes.
+ * Ensures abstraction and decoupling between the service layer.
+ */
+
 public interface NoteService {
 
     /**

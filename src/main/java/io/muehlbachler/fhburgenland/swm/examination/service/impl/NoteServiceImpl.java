@@ -12,6 +12,13 @@ import io.muehlbachler.fhburgenland.swm.examination.service.NoteService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * Service implementation for managing Note entities.
+ * Performs CRUD operations and queries related to notes.
+ * Ensures proper data access and manipulation.
+ */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Service
