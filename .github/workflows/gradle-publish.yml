@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "enhance-dockerfile/container-pipeline-issue-15" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "enhance-dockerfile/container-pipeline-issue-15" ]
+    branches: [ "main" ]
 
 jobs:
 
