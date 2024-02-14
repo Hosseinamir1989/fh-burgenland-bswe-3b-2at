@@ -22,7 +22,7 @@ public interface PersonService {
      *
      * @return A list of all persons.
      */
-    public List<Person> getAll();
+    List<Person> getAll();
 
     /**
      * Retrieves a person by their ID.
@@ -34,7 +34,7 @@ public interface PersonService {
      * @param id The unique identifier of the person.
      * @return An Optional containing the person, if found.
      */
-    public Optional<Person> get(String id);
+    Optional<Person> get(String id);
 
     /**
      * Creates and saves a new person.
@@ -46,7 +46,7 @@ public interface PersonService {
      * @param person The person object to be created and saved.
      * @return The saved person.
      */
-    public Person create(Person person);
+    Person create(Person person);
 
     /**
      * Finds persons by their first or last name.
@@ -61,7 +61,7 @@ public interface PersonService {
      */
 
 
-    public List<Person> findByName(String firstName, String lastName);
+    List<Person> findByName(String firstName, String lastName);
 
     /**
      * Creates a note and associates it with a specific person.
@@ -74,5 +74,5 @@ public interface PersonService {
      * @param note The note to be created and associated with the person.
      * @return An Optional containing the created note, if the person exists.
      */
-    public Optional<Note> createNote(String personId, Note note);
+    Optional<Note> createNote(String personId, Note note);
 }

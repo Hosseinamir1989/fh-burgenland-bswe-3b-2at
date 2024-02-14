@@ -98,6 +98,7 @@ public class PersonServiceImpl implements PersonService {
 
         throw new IllegalStateException("findByName method reached an unexpected state.");
     }
+
     /**
      * Creates a note for a specific person.
      * Purpose: To add a note to a person, identified by their ID.
