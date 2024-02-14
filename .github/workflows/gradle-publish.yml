@@ -125,4 +125,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository.toLowerCase() }}/examination:latest
+          tags: ghcr.io/${{ github.repository_owner }}/examination:latest
+
