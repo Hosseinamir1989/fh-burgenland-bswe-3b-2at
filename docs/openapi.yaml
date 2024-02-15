@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  title: Person API
+  version: "1.0.0"
+  description: API for person data management.
+
+servers:
+  - url: 'http://localhost:8080/person/'
+    description: Development server
+
+paths:
+  /:
+    get:
+      summary: List all persons
+      description: Retrieve all persons.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+
+  /{id}:
+    get:
+      summary: Get person
+      description: Get a person by ID.
+      parameters:
+        - name: id
+          in: path
+          description: Person ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+
+  /query:
+    get:
+      summary: Search persons
+      description: Search by first or last name.
+      parameters:
+        - name: firstName
+          in: query
+          description: First name
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          description: Last name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+
+  /{id}/note:
+    post:
+      summary: Add note
+      description: Add a note to a person.
+      parameters:
+        - name: id
+          in: path
+          description: Person ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Note content
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: Note text
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID
+        firstName:
+          type: string
+          description: First name
+        lastName:
+          type: string
+          description: Last name
+        notes:
+          type: array
+          description: Notes content
+          items:
+            type: string
+
+    Note:
+      type: object
+      properties:
+        id:
+          type: string
+
+          description: ID
+        personId:
+          type: string
+          format: uuid
+          description: Associated person ID
+        content:
+          type: string
+          description: Note text
+      required:
+        - id
+        - personId
+        - content
